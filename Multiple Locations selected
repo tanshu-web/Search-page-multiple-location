@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import './CityList.css'; // Import CSS file for styling
+
+const CityList = () => {
+  const [selectedCities, setSelectedCities] = useState(["New York", "Los Angeles", "Chicago", "Houston"]); // Initial state with four selected cities
+  const [showMoreCities, setShowMoreCities] = useState(false); // State to track visibility of additional cities
+
+  // Function to toggle visibility of additional cities
+  const toggleMoreCities = () => {
+    setShowMoreCities(!showMoreCities);
+  };
+
+  // Function to remove a city from the selected cities list
+  const removeCity = (cityIndex) => {
+    const updatedCities = [...selectedCities];
+    updatedCities.splice(cityIndex + 2, 1); // Adjust index to account for the initially displayed cities
+    setSelectedCities(updatedCities);
+  };
+
+  // List of all city names
+  const cities = [
+    "New York",
+    "Los Angeles",
+    "Chicago",
+    "Houston",
+    "Phoenix",
+    "Philadelphia",
+    "San Antonio",
+    "San Diego",
+    "Dallas",
+    "San Jose"
+  ];
+
+  return (
+    <div className="city-list">
+      <div className="selected-cities">
+        {selectedCities.slice(0, 2).map((city, index) => (
+          <div key={index} className="city">
+            {city}
+          </div>
+        ))}
+        {selectedCities.length > 2 && (
+          <div className="more-cities" onClick={toggleMoreCities}>
+            +{selectedCities.length - 2} more
+          </div>
+        )}
+      </div>
+      {showMoreCities && (
+        <div className="additional-cities">
+          {selectedCities.slice(2).map((city, index) => (
+            <div key={index} className="city-with-remove">
+              {city}
+              <FontAwesomeIcon icon={faTimes} className="remove-icon" onClick={() => removeCity(index)} />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CityList;
